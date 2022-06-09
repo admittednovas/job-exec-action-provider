@@ -196,7 +196,7 @@ func HandleActionTriggeredEvent(myKeptn *keptnv2.Keptn, incomingEvent cloudevent
 	log.Printf("Action=%s\n", data.Action.Action)
 
 	// check if action is supported
-	if data.Action.Action == "action-xyz" {
+	if data.Action.Action == "recycleapppools-task" || data.Action.Action == "responsetimeclub-task" || data.Action.Action == "restartservice-task" {
 		// -----------------------------------------------------
 		// 1. Send Action.Started Cloud-Event
 		// -----------------------------------------------------
