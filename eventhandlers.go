@@ -195,7 +195,7 @@ func HandleActionTriggeredEvent(myKeptn *keptnv2.Keptn, incomingEvent cloudevent
 	log.Printf("Action=%s\n", data.Action.Action)
 
 	// check if action is supported
-	if data.Action.Action == "recycleapppools-task" || data.Action.Action == "responsetimeclub-task" || data.Action.Action == "restartservice-task" {
+	if data.Action.Action == "recycleapppools-task" || data.Action.Action == "responsetimeclub-task" || data.Action.Action == "restartservice-task" || data.Action.Action == "remote-task" {
 		// -----------------------------------------------------
 		// 1. Send Action.Started Cloud-Event
 		// -----------------------------------------------------
@@ -205,10 +205,10 @@ func HandleActionTriggeredEvent(myKeptn *keptnv2.Keptn, incomingEvent cloudevent
 		// 2. Implement your remediation action here
 		// -----------------------------------------------------
 		startedEvent := cloudevents.NewEvent()
-		startedEvent.SetType(keptnv2.GetStartedEventType("remote-task"))
+		startedEvent.SetType(keptnv2.GetStartedEventType(keptnv2.ActionTaskName))
 		startedEvent.SetData(cloudevents.ApplicationJSON, data.EventData)
 
-		log.Printf("Attempting to send cloud event%s\n", myKeptn.KeptnContext)
+		log.Printf("Attempting to send cloud event%s\n", keptnv2.GetStartedEventType(keptnv2.ActionTaskName))
 		myKeptn.SendCloudEvent(startedEvent)
 
 		// -----------------------------------------------------
