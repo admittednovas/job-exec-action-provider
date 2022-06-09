@@ -190,7 +190,7 @@ func HandleProblemEvent(myKeptn *keptnv2.Keptn, incomingEvent cloudevents.Event,
 
 // HandleActionTriggeredEvent handles action.triggered events
 // TODO: add in your handler code
-func HandleActionTriggeredEvent(myKeptn *keptnv2.Keptn, incomingEvent cloudevents.Event, data *keptnv2.ActionTriggeredEventData, shkeptncontext string, triggeredID string) error {
+func HandleActionTriggeredEvent(myKeptn *keptnv2.Keptn, incomingEvent cloudevents.Event, data *keptnv2.ActionTriggeredEventData) error {
 	log.Printf("Handling Action Triggered Event: %s", incomingEvent.Context.GetID())
 	log.Printf("Action=%s\n", data.Action.Action)
 
@@ -205,13 +205,12 @@ func HandleActionTriggeredEvent(myKeptn *keptnv2.Keptn, incomingEvent cloudevent
 		// 2. Implement your remediation action here
 		// -----------------------------------------------------
 		startedEvent := cloudevents.NewEvent()
-		startedEvent.SetExtension("shkeptncontext", shkeptncontext)
-		startedEvent.SetExtension("triggeredid", triggeredID)
+		startedEvent.SetExtension("shkeptncontext", myKeptn.KeptnContext)
 		startedEvent.SetType(keptnv2.GetStartedEventType("remote-task"))
 		startedEvent.SetData(cloudevents.ApplicationJSON, data.EventData)
 
-		myKeptn.Logger.Debug("Send event: remote-task TriggerID=" + triggeredID)
-		return myKeptn.SendCloudEvent(startedEvent)
+		log.Printf("Attempting to send cloud event%s\n", myKeptn.KeptnContext)
+		myKeptn.SendCloudEvent(startedEvent)
 
 		// -----------------------------------------------------
 		// 3. Send Action.Finished Cloud-Event
