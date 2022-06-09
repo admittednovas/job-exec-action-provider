@@ -208,6 +208,7 @@ func HandleActionTriggeredEvent(myKeptn *keptnv2.Keptn, incomingEvent cloudevent
 		startedEvent.SetType(keptnv2.GetStartedEventType("remote-task"))
 		startedEvent.SetData(cloudevents.ApplicationJSON, data.EventData)
 		myKeptn.SendCloudEvent(startedEvent)
+		log.Printf("Attempting to send event: %s", startedEvent)
 
 		// -----------------------------------------------------
 		// 3. Send Action.Finished Cloud-Event
@@ -215,7 +216,7 @@ func HandleActionTriggeredEvent(myKeptn *keptnv2.Keptn, incomingEvent cloudevent
 		myKeptn.SendTaskFinishedEvent(&keptnv2.EventData{
 			Status:  keptnv2.StatusSucceeded, // alternative: keptnv2.StatusErrored
 			Result:  keptnv2.ResultPass,      // alternative: keptnv2.ResultFailed
-			Message: "Successfully sleeped!",
+			Message: "Test Over!",
 		}, ServiceName)
 
 	} else {
