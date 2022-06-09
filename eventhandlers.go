@@ -205,10 +205,10 @@ func HandleActionTriggeredEvent(myKeptn *keptnv2.Keptn, incomingEvent cloudevent
 		// 2. Implement your remediation action here
 		// -----------------------------------------------------
 		startedEvent := cloudevents.NewEvent()
-		startedEvent.SetType(keptnv2.GetStartedEventType(keptnv2.ActionTaskName))
+		startedEvent.SetType(data.Action.Action + ".triggered")
 		startedEvent.SetData(cloudevents.ApplicationJSON, data.EventData)
 
-		log.Printf("Attempting to send cloud event%s\n", keptnv2.GetStartedEventType(keptnv2.ActionTaskName))
+		log.Printf("Attempting to send cloud event: %s\n", data.Action.Action)
 		myKeptn.SendCloudEvent(startedEvent)
 
 		// -----------------------------------------------------
