@@ -1,4 +1,4 @@
-module example.com/keptn-service-template-go
+module github.com/admittednovas/job-exec-action-provider
 
 go 1.17
 
