@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-	"time"
 
 	cloudevents "github.com/cloudevents/sdk-go/v2" // make sure to use v2 cloudevents here
 	keptn "github.com/keptn/go-utils/pkg/lib"
@@ -205,7 +204,10 @@ func HandleActionTriggeredEvent(myKeptn *keptnv2.Keptn, incomingEvent cloudevent
 		// -----------------------------------------------------
 		// 2. Implement your remediation action here
 		// -----------------------------------------------------
-		time.Sleep(5 * time.Second) // Example: Wait 5 seconds. Maybe the problem fixes itself.
+		startedEvent := cloudevents.NewEvent()
+		startedEvent.SetType(keptnv2.GetStartedEventType(data.Action.Action))
+		startedEvent.SetData(cloudevents.ApplicationJSON, data.EventData)
+		myKeptn.SendCloudEvent(startedEvent)
 
 		// -----------------------------------------------------
 		// 3. Send Action.Finished Cloud-Event
